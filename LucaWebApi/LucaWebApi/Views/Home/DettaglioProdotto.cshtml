@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Dettaglio Prodotto";
+}
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+
+<div class="contenitore">
+    @using(Html.BeginForm("AggiungiCarrello","Home",FormMethod.Post)) {
+        <ul class="list-group">
+            <li class="list-group-item">
+                <b>Codice</b> @ViewBag.prodotto.Codice
+            </li>
+            <li class="list-group-item">
+                <b>Prodotto</b>  @ViewBag.prodotto.Descrizione
+            </li>
+            <li class="list-group-item">
+                <b>Giacenza</b> @Html.TextBox("Quantita")
+            </li>
+        </ul>
+
+    <input type="hidden" name="codice" value="@ViewBag.prodotto.Codice" />
+    <input type="submit" value="Aggiungi" />
+    <input type="button" value="Annulla" />
+    }
+</div> 

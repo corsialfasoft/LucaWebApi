@@ -290,6 +290,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\DettaglioProdotto.cshtml" />
+    <Content Include="Views\Home\ElencoProdotti.cshtml" />
+    <Content Include="Views\Home\PreviewRichiesta.cshtml" />
+    <Content Include="Views\Home\RicercaProdotti.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Ricerca Prodotti";
+}
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+
+@using (Html.BeginForm("RicercaProdotti","Home",FormMethod.Post)) {
+ <div>
+     <b>CODICE</b>      @Html.TextBox("codice") <br /> <br />
+     <b>DESCRIZIONE</b> @Html.TextBox("descrizione")
+     <input type="submit" value="Cerca" />
+ </div>
+ }
