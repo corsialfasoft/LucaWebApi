@@ -21,6 +21,7 @@ namespace LucaWebApi.Controllers {
 
 		// POST api/values
 		public void Post([FromBody]string value) {
+			dm.ToString();
 		}
 
 		// PUT api/values/5
