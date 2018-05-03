@@ -20,8 +20,8 @@ namespace LucaWebApi.Controllers {
 		}
 
 		// POST api/values
-		public void Post([FromBody]string value) {
-			dm.ToString();
+		public void Post([FromBody]Prodotto prod) {
+			dm.AddProdotto(prod);
 		}
 
 		// PUT api/values/5
@@ -30,6 +30,7 @@ namespace LucaWebApi.Controllers {
 
 		// DELETE api/values/5
 		public void Delete(int id) {
+			dm.DelProdotto(id);
 		}
 	}
 }

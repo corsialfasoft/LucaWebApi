@@ -57,10 +57,37 @@ namespace LucaWebApi.Models {
 						descrizione = p.Descrizione,
 						quantita = p.Quantita
 					};
+
 					db.SaveChanges();
 				}
 			}
 		}
 
+		public void AddProdotto(Prodotto p){
+			try{
+				using(var db = new RICHIESTEEntities()) {
+					ProdottiSet prod = new ProdottiSet {
+						descrizione = p.Descrizione,
+						quantita = p.Quantita
+					};
+					db.ProdottiSet.Add(prod);
+					db.SaveChanges();
+				}
+			}catch(Exception e){
+				throw e;
+			}
+		}
+
+		public void DelProdotto(int id) {
+			try {
+				using (var db = new RICHIESTEEntities()) {
+					ProdottiSet prod = db.ProdottiSet.Find(id);
+					db.ProdottiSet.Remove(prod);
+					db.SaveChanges();
+				};
+			} catch (Exception e) {
+				throw e;
+			}
+		}
 	}
 }
