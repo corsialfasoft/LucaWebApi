@@ -43,7 +43,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <!--<meta charset="utf-8" />-->
-    <title>PROVIAMOCI</title>
+    <title>DAJE</title>
     <script>
         var uri = '../api/Values';
         $(document).ready(function () {
@@ -63,14 +63,18 @@
                 var $form = $(this)
                 var prodotto = {};
                 var url = $form.attr("action");
-                prodotto.ID = $form.find("input[name='_nome']").val();
+                //prodotto.ID = $form.find("input[name='_nome']").val();
                 prodotto.Descrizione = $form.find("textarea[name='_descrizione']").val();
                 prodotto.Quantita = $form.find("input[name='_quantita']").val();
                 var posting = $.post(url, prodotto);
-                posting.done(function (data) {
+                posting.done(function () {
                     //var content = $(data).find("#Message");
                     LoadProdotti();
                     //$("#Message").append(data);
+                    //$("#frmNuovo").removeAttr();
+                    //$form.
+                    $form.find("textarea[name='_descrizione']").val("");
+                    $form.find("input[name='_quantita']").val("");
                 });
             });
         });
@@ -93,6 +97,17 @@
         //function AddProdotto() {
 
         //}
+        function EliminaProdotto(id) {
+            var posting = $.delete(url, prodotto);
+            posting.done(function (data) {
+                //var content = $(data).find("#Message");
+                LoadProdotti();
+                //$("#Message").append(data);
+                //$("#frmNuovo").removeAttr();
+                //$form.
+                //$form.find("input[name='_quantita']").clearQueue();
+            });
+        }
         function NuovoProdotto() {
             $("#Elenco").hide();
             $("#Nuovo").show();
@@ -138,16 +153,13 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">Inserimento nuovo prodotto</div>
                         <div class="panel-body form-group">
-                            <form action="/api/Corsi" id="frmNuovo" class="formStyle" method="post">
-
-                                <label>Nome - id</label>
-                                <input class="form-control" type="text" name="_nome" placeholder="Nome" required="">
-
+                            <form action="/api/Values" id="frmNuovo" class="formStyle" method="post">
+                                
                                 <label>Descrizione</label>
                                 <textarea class="form-control" name="_descrizione" rows="3" cols="50" maxlength="140" required="" placeholder="Inserisci qui la descrizione..."></textarea>
 
                                 <label>Quantita</label>
-                                <input class="form-control" type="number" name="_quantita" placeholder="Quantita" required="">
+                                <input class="form-control" type="number" name="_quantita" placeholder="Inseisci la quantita" required="">
                                                                 
                                 <input type="submit" class="btn btn-default" value="Inserisci prodotto">
                             </form>
