@@ -98,14 +98,15 @@
         //}
 
         function Delete(prod) {
-            var url = uri + '/' + prod;
             $.ajax({
-                url,
+                url: uri + '/' + prod,
                 method: "delete",
                 success: function (data) {
                     $('#DettaglioProdotto').hide();
                     LoadProdotti();
-                }
+                }   /*).fail(function (data){
+                     *  $("body").prepend(document.createTextNode("ERRORE!!!"));
+                     *  });*/
             });
         }
                 
