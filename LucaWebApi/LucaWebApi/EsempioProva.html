@@ -87,9 +87,8 @@
                         '<div class="panel-body"> <p><small>' + data.Descrizione + '</small></p>' +
                         '<div class="form-group"><label>quantità</label> ' +
                         '<input disabled type="text" class="form-control" value="' + data.Quantita + '">' +
-
-                        '<a class="btn btn-success" href="#" role="button">Modifica</a> &nbsp;' +
-                        '<a class="btn btn-warning" href="#" role="button">Elimina</a>' +
+                        '<a class="btn btn-success" href="#" role="button">Modifica</a> &nbsp;' +                        
+                        '<a class="btn btn-warning" onclick="Delete('+data.ID+')">Delete</a>' +
                         '</div>' +
                         '</div > ');
                 });
@@ -97,17 +96,19 @@
         //function AddProdotto() {
 
         //}
-        function EliminaProdotto(id) {
-            var posting = $.delete(url, prodotto);
-            posting.done(function (data) {
-                //var content = $(data).find("#Message");
-                LoadProdotti();
-                //$("#Message").append(data);
-                //$("#frmNuovo").removeAttr();
-                //$form.
-                //$form.find("input[name='_quantita']").clearQueue();
+
+        function Delete(prod) {
+            var url = uri + '/' + prod;
+            $.ajax({
+                url,
+                method: "delete",
+                success: function (data) {
+                    $('#DettaglioProdotto').hide();
+                    LoadProdotti();
+                }
             });
         }
+                
         function NuovoProdotto() {
             $("#Elenco").hide();
             $("#Nuovo").show();
