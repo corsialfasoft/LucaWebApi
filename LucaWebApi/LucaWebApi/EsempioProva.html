@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <style>
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+            color: #fff;
+            background-color: #337ab7;
+        }
+
+        .nuovo {
+            margin-left: 30px;
+            width: 80%;
+        }
+
+        .sfondoProdotto {
+            margin-top: 0px;
+            /*background-image: url(/ImgResource/Corso.jpg);*/
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .form-control {
+            margin-bottom: 30px;
+        }
+
+        .row {
+            margin-right: 0px !important;
+            margin-left: 0px !important;
+            padding-top: 50px !important;
+            padding-bottom: 50px !important;
+        }
+    </style>
+    <!-- CDN DI JQUERY BY http://jquery.com/download/ -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+
+    <!-- BOOSTRAP DEPENDENCIES BY http://getbootstrap.com/docs/3.3/getting-started/ -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!--<meta charset="utf-8" />-->
+    <title>PROVIAMOCI</title>
+    <script>
+        var uri = '../api/Values';
+        $(document).ready(function () {
+            $("#Nuovo").hide();
+            function LoadProdotti() {
+                $('#Prodotto').empty();
+                $.getJSON(uri)
+                    .done(function (data) {
+                        $.each(data, function (key, item) {
+                            $('#Prodotto').append('<li class="list-group-item" onclick=LoadProdotto(' + item.ID + ')>' + item.Descrizione + '</li>');
+                        });
+                    });
+            }
+            LoadProdotti();
+            $("#frmNuovo").submit(function (event) {
+                event.preventDefault();
+                var $form = $(this)
+                var prodotto = {};
+                var url = $form.attr("action");
+                prodotto.ID = $form.find("input[name='_nome']").val();
+                prodotto.Descrizione = $form.find("textarea[name='_descrizione']").val();
+                prodotto.Quantita = $form.find("input[name='_quantita']").val();
+                var posting = $.post(url, prodotto);
+                posting.done(function (data) {
+                    //var content = $(data).find("#Message");
+                    LoadProdotti();
+                    //$("#Message").append(data);
+                });
+            });
+        });
+        function LoadProdotto(id) {
+            $.getJSON(uri + '/' + id)
+                .done(function (data) {
+                    $('#DettaglioProdotto').html(
+                        '<div class="panel panel-primary">' +
+                        '<div class="panel-heading">' + data.ID + '</div>' +
+                        '<div class="panel-body"> <p><small>' + data.Descrizione + '</small></p>' +
+                        '<div class="form-group"><label>quantità</label> ' +
+                        '<input disabled type="text" class="form-control" value="' + data.Quantita + '">' +
+
+                        '<a class="btn btn-success" href="#" role="button">Modifica</a> &nbsp;' +
+                        '<a class="btn btn-warning" href="#" role="button">Elimina</a>' +
+                        '</div>' +
+                        '</div > ');
+                });
+        }
+        //function AddProdotto() {
+
+        //}
+        function NuovoProdotto() {
+            $("#Elenco").hide();
+            $("#Nuovo").show();
+            $("#TabElenco").removeClass("active");
+            $("#TabNuovo").addClass("active");
+        }
+        function ElencoProdotti() {
+            $("#Nuovo").hide();
+            $("#Elenco").show();
+            $("#TabNuovo").removeClass("active");
+            $("#TabElenco").addClass("active");
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Gestione Prodotti</h1>
+        </div>
+        <div class="text-info">
+
+        </div>
+        <div>
+            <ul class="nav nav-tabs ">
+                <li id="TabElenco" role="presentation" class="active "><a onclick="ElencoProdotti()">Elenco Prodotti</a></li>
+                <li id="TabNuovo" role="presentation"><a onclick="NuovoProdotto()">Nuovo Prodotto</a></li>
+            </ul>
+        </div>
+        <div id="Elenco" class="sfondoProdotto">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-group" id="Prodotto"></ul>
+                </div>
+                <div class="col-md-6">
+                    <div id="DettaglioProdotto"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="Nuovo" class="sfondoProdotto">
+            <div class="row">
+                <div class="nuovo">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Inserimento nuovo prodotto</div>
+                        <div class="panel-body form-group">
+                            <form action="/api/Corsi" id="frmNuovo" class="formStyle" method="post">
+
+                                <label>Nome - id</label>
+                                <input class="form-control" type="text" name="_nome" placeholder="Nome" required="">
+
+                                <label>Descrizione</label>
+                                <textarea class="form-control" name="_descrizione" rows="3" cols="50" maxlength="140" required="" placeholder="Inserisci qui la descrizione..."></textarea>
+
+                                <label>Quantita</label>
+                                <input class="form-control" type="number" name="_quantita" placeholder="Quantita" required="">
+                                                                
+                                <input type="submit" class="btn btn-default" value="Inserisci prodotto">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Basic Modal</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Modal Body</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
