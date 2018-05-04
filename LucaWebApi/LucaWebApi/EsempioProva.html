@@ -78,6 +78,17 @@
                 });
             });
         });
+
+        function LoadS() {
+            $('#Prodotto').empty();
+            $.getJSON(uri)
+                .done(function (data) {
+                    $.each(data, function (key, item) {
+                        $('#Prodotto').append('<li class="list-group-item" onclick=LoadProdotto(' + item.ID + ')>' + item.Descrizione + '</li>');
+                    });
+                });
+        }
+
         function LoadProdotto(id) {
             $.getJSON(uri + '/' + id)
                 .done(function (data) {
@@ -103,10 +114,10 @@
                 method: "delete",
                 success: function (data) {
                     $('#DettaglioProdotto').hide();
-                    LoadProdotti();
-                }   /*).fail(function (data){
-                     *  $("body").prepend(document.createTextNode("ERRORE!!!"));
-                     *  });*/
+                    LoadS();
+                }/*).fail(function (data){
+                 *  $("body").prepend(document.createTextNode("ERRORE!!!"));
+                 *  });*/
             });
         }
                 
